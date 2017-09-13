@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="20dp"
+    android:fillViewport="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.synnapps.carouselview.CarouselView
+            android:id="@+id/customCarouselView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            card_view:slideInterval="100000"
+            app:fillColor="#FFFFFFFF"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            app:pageColor="#00000000"
+            app:strokeColor="#FF777777"
+            app:strokeWidth="1dp" />
+       <!-- <ImageView
+            android:id="@+id/itemDetailImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            custom:srcCompat="@drawable/logomusic" />-->
+
+        <TextView
+            android:id="@+id/textView_itemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView_itemPrice"
+            android:layout_alignStart="@+id/textView_itemDetails"
+            android:layout_below="@+id/customCarouselView"
+            android:layout_marginTop="13dp"
+            android:text="Anesthia Machine" />
+
+        <TextView
+            android:id="@+id/textView_itemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView_itemDetails"
+            android:layout_alignEnd="@+id/linearLayout2"
+            android:layout_alignRight="@+id/linearLayout2"
+            android:layout_marginEnd="50dp"
+            android:layout_marginRight="50dp"
+            android:text="$530,000" />
+
+        <TextView
+            android:id="@+id/textView_itemDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_itemName"
+            android:layout_margin="15dp"
+            android:text="The anaesthetic machine (UK English) or anesthesia machine (US English) or Boyle's machine is used by anaesthesiologists, nurse anaesthetists, and anaesthesiologist assistants to support the administration of anaesthesia. The most common type of anaesthetic machine in use in the developed world is the continuous-flow anaesthetic machine, which is designed to provide an accurate and continuous supply of medical gases (such as oxygen and nitrous oxide), mixed with an accurate concentration of anaesthetic vapour (such as isoflurane), and deliver this to the patient at a safe pressure and flow. Modern machines incorporate a ventilator, suction unit, and patient monitoring devices." />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_itemDetails"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Size" />
+
+            <Spinner
+                android:id="@+id/size_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout2"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Add to wishlist" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Add to cart" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Health App</string>
+    <string name="title_activity_music">Home</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="adele_hello">Playing now Hello by Adele</string>
+    <string name="menu_store">Store</string>
+    <string name="menu_category">Category</string>
+    <string name="menu_cart">Cart</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_wishlist">WishList</string>
+    <string name="group_services">Services</string>
+    <string name="group_my_store">My Store</string>
+    <string name="app_raw_folder">App raw folder</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello">Hello</string>
+    <string name="your_playlists">Your Playlists</string>
+    <string name="let_me_go">Let Me Go</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!--Todo LoginPage-->
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login_failed">Login failed</string>
+    <string name="btn_login">LOGIN</string>
+    <string name="checking_login">Verifying login credentials</string>
+
+    <!--SignUp-->
+    <string name="registering">Registering</string>
+    <string name="user_firstname">First Name</string>
+    <string name="user_lastname">Last Name</string>
+    <string name="user_email">Email</string>
+    <string name="user_reenterpassword">Re-enter password</string>
+    <string name="btn_signup">Sign up</string>
+
+    <string name="search_products">Search</string>
+</resources>
