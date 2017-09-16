@@ -45,7 +45,7 @@ import java.util.Objects;
 public class SubCategoryFragmentAdapter extends RecyclerView.Adapter<SubCategoryFragmentAdapter.ViewHolder> {
     Context context = null;
     private ArrayList<SubCateogory> allLists;
-
+    public static String TAG = SubCategoryFragmentAdapter.class.getSimpleName();
     public SubCategoryFragmentAdapter(Context context, ArrayList<SubCateogory> allLists) {
         this.context = context;
         this.allLists = allLists;
@@ -98,7 +98,7 @@ public class SubCategoryFragmentAdapter extends RecyclerView.Adapter<SubCategory
                         bundle.putParcelableArrayList(ApplicationVariables.SUB_CAT_LISTS, subCateogoryItems);
                         fragment = new SubCategoryFragment();
                         fragment.setArguments(bundle);
-                        ft.replace(R.id.main_container_wrapper, fragment, "subCategoryFragmentAdapter");
+                        ft.replace(R.id.frame_container, fragment, "subCategoryFragmentAdapter");
                         ft.addToBackStack(null);
                         ft.commit();
 
@@ -120,8 +120,8 @@ public class SubCategoryFragmentAdapter extends RecyclerView.Adapter<SubCategory
                                 bundle.putParcelableArrayList(ApplicationVariables.PRODUCT_LIST_ITEMS, productListItems);
                                 fragment = new ProductListFragment();
                                 fragment.setArguments(bundle);
-                                ft.replace(R.id.main_container_wrapper, fragment,"subCategoryFragmentAdapter");
-                                ft.addToBackStack(null);
+                                ft.replace(R.id.frame_container, fragment,"subCategoryFragmentAdapter");
+                                ft.addToBackStack(TAG);
                                 ft.commit();
                                 progressDialog.hide();
                             }

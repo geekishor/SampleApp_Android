@@ -6,10 +6,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +29,11 @@ import com.healthcamp.healthapp.activity.HomeActivity;
 import com.healthcamp.healthapp.adapter.CartFragmentAdapter;
 import com.healthcamp.healthapp.adapter.CategoryFragmentAdapter;
 import com.healthcamp.healthapp.adapter.DetailsFragmentPageAdapter;
+import com.healthcamp.healthapp.fragments.ListDataFragment;
 import com.healthcamp.healthapp.helpers.DatabaseHelper;
 import com.healthcamp.healthapp.models.Carts.CartModel;
+import com.healthcamp.healthapp.utils.FragmentHelper;
+import com.healthcamp.healthapp.utils.SwipeUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,8 +45,12 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class CartFragment extends Fragment implements View.OnClickListener {
+
+    public static String TAG = CartFragment.class.getSimpleName();
     DatabaseHelper databaseHelper;
     private FragmentManager fragmentManager;
+    RecyclerView mRecyclerView;
+
     public CartFragment() {
         // Required empty public constructor
     }
@@ -52,16 +61,17 @@ public class CartFragment extends Fragment implements View.OnClickListener {
 
 
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.cart_recycle_view);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.cart_recycle_view);
 
-        databaseHelper = new DatabaseHelper(recyclerView.getContext());
+        databaseHelper = new DatabaseHelper(mRecyclerView.getContext());
         ArrayList<CartModel> allLists = databaseHelper.getAllCartItems();
-        CartFragmentAdapter adapter = new CartFragmentAdapter(recyclerView.getContext(), allLists);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        CartFragmentAdapter adapter = new CartFragmentAdapter(mRecyclerView.getContext(), allLists);
 
-        fragmentManager = ((AppCompatActivity) recyclerView.getContext()).getSupportFragmentManager();
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(adapter);
+        setSwipeForRecyclerView();
+        fragmentManager = ((AppCompatActivity) mRecyclerView.getContext()).getSupportFragmentManager();
         Button b = (Button) view.findViewById(R.id.btn_checkOut);
         b.setOnClickListener(this);
         return view;
@@ -72,12 +82,43 @@ public class CartFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_checkOut:
                 Fragment fragment = new CheckoutFragment();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.main_container_wrapper, fragment, "CartFragment");
-                transaction.addToBackStack(null);
-                transaction.commit();
+                FragmentHelper.openFragment(fragment, TAG, v.getContext());
+               /* FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.frame_container, fragment, "CartFragment");
+                transaction.addToBackStack("");
+                transaction.commit();*/
                 break;
         }
+    }
+
+    private void setSwipeForRecyclerView() {
+
+        SwipeUtil swipeHelper = new SwipeUtil(0, ItemTouchHelper.LEFT, getActivity()) {
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int swipedPosition = viewHolder.getAdapterPosition();
+                CartFragmentAdapter adapter = (CartFragmentAdapter) mRecyclerView.getAdapter();
+                adapter.pendingRemoval(swipedPosition);
+            }
+
+            @Override
+            public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                int position = viewHolder.getAdapterPosition();
+                CartFragmentAdapter adapter = (CartFragmentAdapter) mRecyclerView.getAdapter();
+                if (adapter.isPendingRemoval(position)) {
+                    return 0;
+                }
+                return super.getSwipeDirs(recyclerView, viewHolder);
+            }
+        };
+
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(swipeHelper);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        //set swipe label
+        swipeHelper.setLeftSwipeLable("Archive");
+        //set swipe background-Color
+        swipeHelper.setLeftcolorCode(ContextCompat.getColor(getActivity(), R.color.button_grey));
     }
 
 

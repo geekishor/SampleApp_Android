@@ -1,6 +1,12 @@
 package com.healthcamp.healthapp.adapter;
 
 import android.content.Context;
+import android.nfc.Tag;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +17,13 @@ import android.widget.Toast;
 
 import com.healthcamp.healthapp.R;
 import com.healthcamp.healthapp.activity.HomeActivity;
+import com.healthcamp.healthapp.fragments.SubCategoryFragment;
+import com.healthcamp.healthapp.helpers.ApplicationVariables;
+import com.healthcamp.healthapp.helpers.FragmentTitle;
 import com.healthcamp.healthapp.models.DataModel;
 import com.healthcamp.healthapp.models.HomeCategory.MainResult;
+import com.healthcamp.healthapp.models.HomeCategory.SubCateogory;
+import com.healthcamp.healthapp.utils.FragmentHelper;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -24,9 +35,9 @@ import java.util.ArrayList;
  */
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
-    private MainResult dataSet;
+    private MainResult allCategories;
     private Context context = null;
-
+    public static String TAG = HomeAdapter.class.getSimpleName();
     public class HomeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView text;
         ImageView image;
@@ -41,13 +52,30 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(context, String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+            try {
+                Toast.makeText(context, String.valueOf(getAdapterPosition()), Toast.LENGTH_SHORT).show();
+                int position = getAdapterPosition();
+                ArrayList<SubCateogory> subCatList = (ArrayList<SubCateogory>) allCategories.getResult().getCategory().get(position).getSubCategories();
+                FragmentTitle.SubCategoryTitle = allCategories.getResult().getCategory().get(position).getName();
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList(ApplicationVariables.SUB_CAT_LISTS, subCatList);
+                FragmentHelper.openFragment(new SubCategoryFragment(), TAG, context, bundle);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            /*FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            Fragment fragment = new SubCategoryFragment();
+            fragment.setArguments(bundle);
+            ft.replace(R.id.frame_container, fragment);
+            ft.commit();*/
         }
     }
 
-    public HomeAdapter(Context context, MainResult data) {
+    public HomeAdapter(Context context, MainResult allCategories) {
         this.context = context;
-        this.dataSet = data;
+        this.allCategories = allCategories;
     }
 
     @Override
@@ -61,15 +89,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     public void onBindViewHolder(HomeAdapter.HomeViewHolder holder, int position) {
         TextView textViewName = holder.text;
         ImageView imageView = holder.image;
-        String name = dataSet.getResult().getCategory().get(position).getName();
-        String imageUrl = dataSet.getResult().getCategory().get(position).getImage();
+        String name = allCategories.getResult().getCategory().get(position).getName();
+        String imageUrl = allCategories.getResult().getCategory().get(position).getImage();
         textViewName.setText(name);
         Picasso.with(this.context).load(imageUrl).into(imageView);
     }
 
     @Override
     public int getItemCount() {
-        return dataSet.getResult().getCategory().size();
+        return allCategories.getResult().getCategory().size();
     }
 
     @Override

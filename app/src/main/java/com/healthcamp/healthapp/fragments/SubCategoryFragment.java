@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.healthcamp.healthapp.MainActivity;
 import com.healthcamp.healthapp.R;
+import com.healthcamp.healthapp.activity.HomeActivity;
 import com.healthcamp.healthapp.adapter.CategoryFragmentAdapter;
 import com.healthcamp.healthapp.adapter.SubCategoryFragmentAdapter;
 import com.healthcamp.healthapp.helpers.ApplicationVariables;
@@ -38,7 +39,7 @@ public class SubCategoryFragment extends Fragment {
         Bundle bundle = getArguments();
         ArrayList<SubCateogory> subCateogoryItems = bundle.getParcelableArrayList(ApplicationVariables.SUB_CAT_LISTS);
         String title = FragmentTitle.SubCategoryTitle;
-        ((MainActivity) getActivity()).setTitle(title);
+        ((HomeActivity) getActivity()).setTitle(title);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.sub_category_recycle_view);
         SubCategoryFragmentAdapter adapter = new SubCategoryFragmentAdapter(recyclerView.getContext(), subCateogoryItems);
         recyclerView.setAdapter(adapter);
